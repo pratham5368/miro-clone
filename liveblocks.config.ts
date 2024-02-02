@@ -9,6 +9,7 @@ import { createRoomContext } from "@liveblocks/react";
 import { Layer, Color } from "@/types/canvas";
   
 const client = createClient({
+  publicApiKey: "pk_dev_rZKz2Z2uTTZ-ZBpV8SkwlSM30BbV8ZmNFJcC262R2qxsFF1cbx1b0O8CnIgr7sT4",
   throttle: 16,
   authEndpoint: "/api/liveblocks-auth",
 });
