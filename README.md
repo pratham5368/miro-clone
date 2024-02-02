@@ -5,6 +5,8 @@ Made in Nextjs,React,Tailwindcss,shadcn/ui,Clerk as authentication and Convex as
 - [clerk(https://clerk.com/docs/quickstarts/nextjs)]
 
 - [add tookit](shadcn.io)
+
+- [Liveblocks](https://liveblocks.io/)
 Features:
 
 - 🛠️ Whiteboard from scratch

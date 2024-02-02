@@ -1,4 +1,11 @@
 import { v } from "convex/values";
+/**
+ * Handler for the remove mutation that deletes a board.
+ *
+ * Checks for user authorization and deletes the board with the given ID.
+ *
+ * Throws an error if the user is unauthorized.
+ */
 
 import { mutation, query } from "./_generated/server";
 
@@ -14,6 +21,18 @@ const images = [
   "/placeholders/9.svg",
   "/placeholders/10.svg",
 ];
+/**
+ * Deletes the user's favorite for the board being deleted if one exists.
+ */
+/**
+ * Mutations for creating, removing, and updating boards.
+ *
+ * create: Creates a new board. Checks for user authorization and generates a random image.
+ *
+ * remove: Deletes a board. Checks for authorization, deletes any user favorite for the board, and deletes the board.
+ *
+ * update: Updates a board's title. Checks for authorization and validates the title.
+ */
 
 export const create = mutation({
   args: {
@@ -29,7 +48,7 @@ export const create = mutation({
 
     const randomImage = images[Math.floor(Math.random() * images.length)];
 
-    console.log(randomImage, "TEST")
+    console.log(randomImage, "TEST");
 
     const board = await ctx.db.insert("boards", {
       title: args.title,
@@ -56,10 +75,8 @@ export const remove = mutation({
 
     const existingFavorite = await ctx.db
       .query("userFavorites")
-      .withIndex("by_user_board", (q) => 
-        q
-          .eq("userId", userId)
-          .eq("boardId", args.id)
+      .withIndex("by_user_board", (q) =>
+        q.eq("userId", userId).eq("boardId", args.id)
       )
       .unique();
 
@@ -87,7 +104,7 @@ export const update = mutation({
     }
 
     if (title.length > 60) {
-      throw new Error("Title cannot be longer than 60 characters")
+      throw new Error("Title cannot be longer than 60 characters");
     }
 
     const board = await ctx.db.patch(args.id, {
@@ -183,3 +200,17 @@ export const get = query({
     return board;
   },
 });
+
+/**
+ * The create mutation takes in an orgId and title as inputs. It first checks if the user is authenticated. Then it generates a random image url from a list of placeholders. It inserts a new board record into the database with the given title, orgId, and random imageUrl, along with the authorId and name from the authenticated user. The new board object is returned.
+
+The remove mutation takes a board id as input. It checks user authentication, then deletes any favorite record for that board by the user. Finally it deletes the board record from the database.
+
+The update mutation takes a board id and new title as inputs. It checks authentication, trims the title, validates it is not empty and under 60 chars. It then updates the board record with the new title and returns the updated board object.
+
+The favorite mutation takes a board id and orgId as inputs. It checks authentication, validates the board exists, and checks if the user already favorited it. If not, it inserts a new userFavorite record with the userId, boardId, and orgId. It returns the favorited board object.
+
+The unfavorite mutation takes a board id as input. It checks authentication, validates the board exists, and deletes any existing favorite record for the user and board.
+
+In summary, these mutations allow authenticated users to perform CRUD operations on boards - creating, reading, updating, deleting, favoriting and unfavoriting. The mutations contain authorization checks and data validation. They interact with the database to insert, update, delete, and query records.
+ */
