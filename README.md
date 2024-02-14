@@ -2,7 +2,7 @@ Made in Nextjs,React,Tailwindcss,shadcn/ui,Clerk as authentication and Convex as
 
 - [convex](https://docs.convex.dev/auth/clerk)
 
-- [clerk(https://clerk.com/docs/quickstarts/nextjs)]
+- [clerk](https://clerk.com/docs/quickstarts/nextjs)
 
 - [add tookit](shadcn.io)
 
